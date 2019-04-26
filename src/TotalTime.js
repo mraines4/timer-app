@@ -2,7 +2,7 @@ import React from 'react';
 
 function TotalTime({input, handleType}) {
     return (
-        <input value={input} onChange={(e) => {
+        <input type="number" defaultValue={input} onChange={(e) => {
             handleType(e.target.value)
         }} />
     )
