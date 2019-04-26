@@ -1,10 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import TotalTime from './TotalTime';
-import TimeRemaining from './TimeRemaining';
-import PauseUnpauseButton from './PauseUnpauseButton';
-import ResetButton from './ResetButtton';
+import DoAllTheThings from './DoAllTheThings';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,7 +11,8 @@ class App extends React.Component {
       time: 0,
       input: 0,
       status: false,
-      completion: false
+      completion: false,
+      adder: []
     }
   }
 
@@ -23,57 +21,26 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <TimeRemaining time={this.state.time} completion ={this.state.completion} />
-          <TotalTime input={this.state.input} handleType={this._handleType} />
-          <PauseUnpauseButton handleClick={this._timerClick} status={this.state.status} />
-          <ResetButton handleClick={this._resetClick} />
-
+          <DoAllTheThings time={this.state.time} />
+          {this.state.adder.map((one, i) => {
+            return (
+              <DoAllTheThings time={this.state.time} key={i} />
+            )
+          })}
+          <br></br>
+          <button onClick={this._addTimer}>Add Timer</button>
         </header>
       </div>
     );
   }
 
-  _handleType = (input) => {
+  _addTimer = () => {
+    this.addOne = 1
     this.setState({
-      input: input,
-      time: input ? input : 0,
+      adder: this.state.adder.concat(this.addOne)
     })
   }
-  _timerClick = () => {
-    if (this.state.status) {
-      clearInterval(this.interval)
-      this.setState({
-        status: false,
-      }) 
-    } else {
-      this.setState({
-        status: true,
-        completion: false
-      })
-      this.interval = setInterval(() => {
-        if (this.state.time >= 1) {
-          this.setState({
-            time: this.state.time - 1,
-          })
-        } else {
-          this.setState({
-            time: this.state.input,
-            status: false,
-            input: this.state.input,
-            completion: true
-          }, clearInterval(this.interval))
-        }
-      }, 1000)
-    }
-  }
-  _resetClick = () => {
-    clearInterval(this.interval)
-    this.setState({
-      status: false,
-      time: this.state.input,
-      completion: false
-    })
-  }
+
 }
 
 export default App;
