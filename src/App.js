@@ -8,10 +8,6 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      time: 0,
-      input: 0,
-      status: false,
-      completion: false,
       adder: []
     }
   }
